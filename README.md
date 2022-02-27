@@ -1246,4 +1246,431 @@ Hashing a URL ensures that the request with that URL always hits a certain cache
 
 This also averts the need for duplicating data in every cache and is, thus, a more efficient way to implement caching.
 
+### What is Monolithic Architecture?
+
+An application has a monolithic architecture if it contains the entire application code in a single codebase.
+
+A monolithic application is a self-contained, tightly coupled software application. This is unlike the microservices architecture, where every distinct feature of an application may have one or more dedicated microservices powering it.
+
+Taking example of a social networking site like Facebook. The application contains various features such as:
+
+* User posts
+* Comment system
+* Groups
+* Marketplace
+* Portal Ads
+* Photo storage
+* Live streaming
+* Recommendation system for recommending the latest and contextual content on the platform to the users and so on.
+
+In a monolithic architecture, all the modules will be coded in a single codebase tightly coupled with each other as opposed to having one or more dedicated microservice for running respective features.
+
+The diagram below represents a monolithic architecture.
+
+![image](https://user-images.githubusercontent.com/25869911/155901462-75cf6ffc-5b67-4f57-a7a1-9f1ac353f2b8.png)
+
+Monolithic apps are simple to build, test, and deploy in comparison to a microservices architecture.
+
+Often during the initial stages of a business, teams choose to move forward with a monolithic architecture, intending to branch out into a distributed microservices architecture later.
+
+Well, this decision is a trade-off. We need to bear in mind refactoring and re-writing code has significant costs associated. Dismantling features from a tightly coupled architecture and re-implementing them into separate microservices demands a lot of time and resources.
+
+There have been instances in the past where the dev teams decided to start with a monolithic architecture and later scaled out to a distributed microservices architecture.
+
+This is what LinkedIn did. Though I would like to state here that LinkedIn started at a time when cloud computing and microservices architecture weren’t the norm.
+
+In the present computing landscape, applications are built and deployed on the cloud. Also, businesses have to move fast. A wise decision is to pick the loosely coupled stateless microservices architecture from the start if we have multiple distinct features in our application and expect things to grow at a rapid pace in the future.
+
+On the flip side, if our requirements are simple, monolithic architecture would suit best. Implementing a microservices architecture in this use case would be overkill. After all, managing numerous modules running in conjunction in a distributed environment isn’t a walk in the park
+
+https://engineering.linkedin.com/architecture/brief-history-scaling-linkedin
+
+### When should you pick a Monolithic Architecture?
+
+#### Pros of monolithic architecture
+
+##### Simplicity
+
+Monolithic applications are simple to develop, test, deploy, monitor and manage since everything resides in one repository.
+
+Things are relatively simple when dealing with one repository averting the complexity associated when handling and monitoring multiple components deployed separately.
+
+#### Cons of monolithic architecture
+
+##### Continuous deployment
+
+Continuous deployment is a pain in monolithic applications as even a minor code change in a certain application layer or a feature necessitates a re-deployment of the entire application.
+
+##### Regression testing
+
+The downside of re-deployment of the entire application is that we need to perform a thorough regression testing of the whole application after the deployment is done. A minor code change in one feature can potentially impact the functionality of other features significantly since all the features are tightly coupled with each other.
+
+##### Single points of failure
+
+Monolithic applications have a single point of failure. A bug in any of the application features can bring down the entire application.
+
+##### Scalability issues
+
+Maintenance and scalability are a challenge in monolith apps as all the components are so tightly coupled with each other. As the code size increases, things get trickier to manage.
+
+##### Cannot leverage heterogeneous technologies
+
+heterogenous - diverse in character or content.
+
+Building complex applications with a monolithic architecture is tricky since multiple technologies and programming languages need to be leveraged to implement the respective features of an application.
+
+Using multiple programming languages in a single codebase becomes a mess also often times not possible. Heterogeneous technologies have compatibility issues and microservices architecture suits best to leverage them.
+
+It is tricky to use Java and NodeJS together in a single codebase, and when I say tricky, I am being optimistic. I am not sure if it is even possible.
+
+##### Not cloud-ready, hold state
+
+Generally, monolithic applications are not cloud-ready as they may hold state in the static variables. Though not all monolith apps are designed that way, it’s a general observation that legacy apps use static variables to quite an extent. An application to be cloud-native, to have a consistent behavior on the cloud, has to be stateless.
+
+#### When should you pick a monolithic architecture?
+
+Monolithic applications fit best for use cases where the app requirements are pretty simple; when the application is not that complex. Examples of this are a to-do list app, a sports news app, an organization’s internal tax calculation app, a similar open public tool, etc.
+
+These are the use cases where the business is certain that the application will have limited features and complexity and will not require any serious expansion in the near future.
+
+### What is Microservice Architecture?
+
+In a microservices architecture, different features of an extensive service like Facebook are deployed separately as smaller loosely coupled services called microservices. These microservices work in conjunction to form a large distributed online service as a whole.
+
+![image](https://user-images.githubusercontent.com/25869911/155901902-8be40cb9-9c34-4645-aec8-9d143f910199.png)
+
+Remember the single responsibility and the separation of concerns principles? Both principles come into effect in a microservices architecture.
+
+Every service has a single responsibility of running a specific feature and is separated from other services facilitating a loosely coupled architecture.
+
+This particular architecture facilitates easier, cleaner app maintenance, feature development, testing, and deployment of individual modules in contrast to a monolithic architecture.
+
+Imagine accommodating every feature in a single repository. How complex would things get? It would be a maintenance nightmare.
+
+Also, when the project is large, it is managed by several different teams. When application modules/features are separate, they can be assigned to dedicated teams with minimal fuss, smoothing out the development process.
+
+With microservices, scalability becomes easy too. The architecture is inherently designed to scale. Services that need scaling can be scaled independently without affecting other services.
+
+Also, every microservice ideally has a separate database. This eliminates single points of failure and system bottlenecks.
+
+### When should you pick Microservices Architecture?
+
+#### Pros of microservice architecture
+
+##### No Single Points of failure
+
+Since microservices is a loosely coupled architecture, there is no single point of failure. Even if a few services go down, the application as a whole would still be up.
+
+##### Leverage the heterogeneous technologies
+
+Every microservice interacts with each other via a REST API gateway interface. A system with microservices can leverage the polyglot persistence architecture and other heterogeneous technologies like Java, Python, Ruby, NodeJS, etc.
+
+Polyglot persistence uses multiple database types, like SQL and NoSQL, together in the architecture. 
+
+##### Independent and continuous deployments
+
+The deployments can be independent and continuous. We can have dedicated teams for every microservice, and they can be scaled independently without impacting other services.
+
+#### Cons of microservices architecture
+
+##### Management complexity
+
+Microservices is a distributed environment with several services powered by clusters of servers. This makes system management and monitoring complex.
+
+We need to set up additional components to manage microservices, such as a node manager like Apache Zookeeper, a distributed tracing service for monitoring the nodes, etc.
+
+We need skilled resources and even have to set up a dedicated team just to manage these services.
+
+##### Strong consistency
+
+Sometimes, strong consistency is hard to guarantee in a distributed environment, especially when trying to achieve a single consistent state across several microservices.
+
+Things are eventually consistent across the nodes, and this limitation is due to the distributed design.
+
+In the database chapter, we will discuss both strong and eventual consistency in detail.
+
+
+#### When should you pick a microservices architecture?
+
+The microservice architecture fits best for complex use cases; for apps that need to expand quick from adding new features standpoint. A social network application is a good example of a complex use case.
+
+A typical social networking application has various components such as messaging, real-time chat, LIVE video streaming, photo uploads, post like and share features, etc.
+
+This use case fits best for a microservices architecture. Also, the microservices architecture enables a business move fast. A business can separately develop, test, deploy an application feature without affecting the current features. There is not much need for regression testing and so on.
+
+Writing every feature in a single codebase would take no time to become a mess.
+
+So, by now, we have seen three ways to proceed with the design of our application:
+
+* Picking a monolithic architecture
+* Picking a microservice architecture
+* Starting with a monolithic architecture and later scaling out into a microservice architecture.
+
+Picking a monolithic or a microservice architecture largely depends on our use case. I suggest keeping things simple and thoroughly understanding the requirements before deciding on an architecture.
+
+### Monolith and Microservices– Understanding the Trade-Offs – Part 1
+
+ discussion on the trade-offs of choosing between a monolith and microservices architecture to design our application.
+ 
+#### Fault isolation
+
+When we have a microservices architecture, it becomes easy for us to isolate faults and debug them. When a glitch occurs in a certain service, we just have to fix the issue in that particular service without the need to scan the entire codebase to locate and fix the issue. This is known as fault isolation.
+
+#### Development team autonomy
+
+In the case of a monolith architecture, if the number of developers and the teams working on a single codebase grows beyond a certain number, it may impede the productivity and the velocity of the teams.
+
+In this scenario, things become a little tricky to manage. As the size of the codebase increases, the compile-time and tests runtime increase too. This is because, in a monolith architecture, the entire codebase has to be compiled after a code change as opposed to just compiling the module we work on.
+
+A code change made, in the codebase, by any other team has a direct impact on the features we develop. It may even break the functionality of our feature. Due to this, thorough regression testing is required every time anyone pushes new code or an update to production.
+
+Also, as the code is pushed to production, we need all the teams to stop working on the codebase until the change is pushed to production.
+
+The code pushed by a certain team may also require approval from other teams in the organization working on the same codebase. This process is a bottleneck in the system.
+
+On the contrary, in the case of microservices, dedicated teams have complete ownership of their codebases. They have full development and deployment autonomy over their modules with separate deployment pipelines. Code management becomes easier. It becomes easier to scale individual services based on their traffic load patterns.
+
+So, if you need to move fast, quickly launch a lot of features to the market and scale. Moving forward with microservices architecture is a good bet.
+
+Having a microservices architecture sounds delightful, but we cannot ignore the increase in the complexity in the architecture due to this. Adopting microservices has its costs.
+
+With the microservices architecture comes the need to set up distributed logging, monitoring, inter-service communication, service discovery, alerts, tracing, dedicated build and release pipelines, health checks, and so on. You may even have to write a lot of custom tooling from scratch for yourself.
+
+I believe you get the idea. There are always trade-offs involved, and there is no perfect solution. We need to be crystal clear on our use case and see what architecture suits our needs best.
+
+Let’s understand this further with the help of the real-world example of a company called Segment that started with a monolith architecture, moved to microservices and then moved back again to the monolith architecture.
+
+#### Segment – From monolith to microservices and back again to the monolith
+
+Segment is a customer data platform that initially started with a monolith and later split it into microservices. As their business gained traction, they again decided to revert to the monolith architecture.
+
+Why did they do that?
+
+Let’s take a look.
+
+The segment engineering team split their monolith into microservices for fault isolation and easy debugging of issues in the system.
+
+Fault isolation with microservices helped them minimize the damage a fault caused in the system. When a fault occurred, it was confined to a particular service as opposed to impacting, even bringing down the entire system as a whole.
+
+Given the original monolith architecture had low management overhead, there were single points of failure. A glitch in a certain functionality could impact the entire system.
+
+Segment integrates data from many different data providers into their systems. As the business gained traction, they integrated more data providers into their system, creating a separate microservice for every data provider. The increase in the number of microservices led to a significant increase in the complexity of their architecture, subsequently taking a toll on their productivity.
+
+The defects with regards to microservices started increasing significantly. They had three engineers solely dedicated to getting rid of these defects to keep the system online. This operational overhead became resource-intensive and slowed down the organization immensely.
+
+To tackle the issue, they made the decision to move back to the monolith, giving up on fault isolation and other nice things that the microservices architecture brought along.
+
+They ended up with an architecture with a single code repository called Centrifuge that handled billions of messages per day delivered to multiple APIs.
+
+### Monolith and Microservices– Understanding the Trade-Offs – Part 2
+
+#### Segment high-level architecture
+
+Segment’s data infrastructure ingests hundreds of thousands of events per second. These events are then directed to different APIs and webhooks via a message queue. These APIs are also called server-side destinations, and there are over a hundred of these destinations at Segment.
+
+When they started with a monolith architecture, they had an API that ingested events from different sources, and the events were then forwarded to a distributed message queue. The queue moved the event payload further to other destination APIs according to configuration and settings.
+
+![image](https://user-images.githubusercontent.com/25869911/155902672-53643db3-1f9a-41fc-a66c-29002cd12633.png)
+
+In the monolithic architecture, as all the events were moved into a single queue, some of the events often failed to deliver to the destinations and were retried by the queue after stipulated time intervals.
+
+This made the queue contain both the new as well as the failed events waiting to be retried. As a result, the queue would be eventually flooded, resulting in delays in the delivery of events to the destinations.
+
+To tackle the queue flooding issue, the engineering team at Segment split the monolith into microservices and created a separate microservice for every destination.
+
+Now every service contained its own individual distributed message queue. This helped cut down the load on a single queue and enabled the system to scale, increasing the throughput.
+
+![image](https://user-images.githubusercontent.com/25869911/155902741-1e980395-afb0-48c7-ae93-79a803c80247.png)
+
+In this scenario, even if a certain queue got flooded, it didn’t impact the event delivery of other services. This is how Segment leveraged fault isolation with the microservices architecture.
+
+Over time as the business gained traction, additional destinations were added. Every destination had a separate microservice and a queue. The increase in the number of services led to an increase in the complexity of the architecture.
+
+Separate services had separate event throughput and traffic load patterns. A single-scale policy couldn’t be applied to all the queues commonly. Every service and the queue needed to be uniquely scaled based on its traffic load pattern and this process had to be done manually.
+
+Autoscaling was implemented in the infrastructure, but every service had different CPU & memory requirements. This required manual tuning of the infrastructure, meaning more queues needed more resources for maintenance.
+
+To tackle this, Segment eventually reverted to monolith architecture, calling their architecture a Centrifuge that combined all the individual queues for different destinations into a single monolith service.
+
+The info I have provided on Segment architecture in this lesson is very high-level. If you wish to go into more details and take a look at the Centrifuge architecture, go through these resources:
+
+Goodbye Microservices: From 100s Of Problem Children To 1 Superstar
+
+Centrifuge: A Reliable System For Delivering Billions Of Events Per Day
+
+Below is another instance of a popular service that transitioned from microservices to a monolith architecture.
+
+https://segment.com/blog/goodbye-microservices/
+
+https://segment.com/blog/introducing-centrifuge/
+
+#### Istio – The move from microservices to a monolith
+
+Istio is an open-source service mesh that enables us to connect, secure, control, and observe microservices. It allows us to control how microservices share data with each other.
+
+It recently transitioned from a microservices to a monolith architecture. According to the Istio team, having a monolith architecture enabled them to deliver value and achieve the goals they intended to.
+
+https://blog.christianposta.com/microservices/istio-as-an-example-of-when-not-to-do-microservices/
+
+### Introduction to Micro Frontends
+
+#### What are micro frontends?
+
+Micro frontends are distinct loosely coupled components of an application’s user interface developed applying the concept of microservices to the frontend.
+
+Writing micro frontends is more of an architectural design decision and a development approach as opposed to it being a technology.
+
+What does applying the concept of microservices to the front end mean?
+
+Microservices provide complete autonomy to the teams developing them. They are loosely coupled, provide fault isolation, and offer the freedom to pick the desired technology stack to the dedicated teams, to develop a certain service. Micro frontends offer the same upsides to frontend development.
+
+Typically, in application architecture, despite having microservices on the backend, our frontend is a monolith that is developed by a dedicated frontend development team.
+
+![image](https://user-images.githubusercontent.com/25869911/155903050-d2b79364-293a-48a4-85a2-1c4c9e72f2ac.png)
+
+
+With the micro frontends approach, we split our application into vertical slices, where a single slice goes end to end right from the user interface to the database. And every slice is owned by a dedicated team.
+
+Besides having the backend devs, the micro frontend team of a particular vertical slice also includes the frontend developers who develop the user interface component only for that specific service.
+
+Every team builds their user interface component choosing their desired technology, and later all these components are integrated, forming the complete user interface of the application. This micro frontend approach averts the need for a dedicated centralized user interface team. Every micro frontend team becomes more of a full-stack team.
+
+![image](https://user-images.githubusercontent.com/25869911/155903134-f582d5b2-8784-4c8c-960d-b1e2117f4cb1.png)
+
+
+#### Micro frontends e-commerce application example
+
+I’ve picked the example of an e-commerce application because the micro frontends approach is pretty popular with e-commerce websites.
+
+Imagine an online game store that delivers video games for desktops and consoles such as Xbox, Nintendo Switch, PlayStation, and the related hardware.
+
+Our online gaming store will have several different UI components. A few of the key components would be:
+
+The search component – This is a search bar at the top center of the website that enables the users to search games based on the keywords they enter.
+
+Once the user runs a search, the component enables the user to filter their search results based on several options, including the price range, type of console, game genre, and so on.
+
+The game category component – This component displays the popular and widely searched games for different categories on the website’s homepage.
+
+Add to cart and checkout component – This user interface component enables users to add games of their liking to their cart and proceed to the checkout filling in their address and other required information to make the final payment.
+
+During the checkout, the website may also recommend related games to the user as upsells. The user can also feed in coupons and gift cards if they have any.
+
+The payment component – The payment UI component offers different payment options to the user and facilitates the order payment once the user enters their card details on the page.
+
+Every UI component has a dedicated microservice running on the backend powering that particular user interface component. All these different components are developed and managed by dedicated full-stack (micro frontend) teams.
+
+The application’s complete user interface is rendered combining all these different UI components, also called micro frontends.
+
+### The Need For Micro Frontends
+
+A micro frontend team may own a more extensive UI component like the checkout page. They may own a minor component that fits in a particular component like the game category component on the home page. Or they might own both.
+
+The smaller components that integrate into other pages/components of the application are known as fragments.
+
+![image](https://user-images.githubusercontent.com/25869911/155903317-d6131642-d2f5-49f2-9fac-e60556a71945.png)
+
+upsides of splitting an application into micro frontends?
+
+#### Easier coordination between the frontend and the backend devs
+
+When we have full-stack teams owning an entire service end to end, this averts the need for a dedicated frontend team. In addition, since the frontend devs now work alongside the backend devs on the same team, this saves a lot of time that was initially spent in the cross-team coordination.
+
+With this new approach, communication is quick and not so formal. This improves the team’s productivity and enables them to deliver a better user experience by having more effective coordination between the backend and the frontend devs.
+
+#### Leveraging the right technology
+
+
+Since the micro frontends are loosely coupled, we can develop them leveraging different technologies, just like microservices. This opens up our options as opposed to sticking to just one UI technology to build the complete front end of the website.
+
+There are a plethora of existing frontend technologies in the industry that cater to different use cases, in addition to the new waves of JavaScript frameworks that hit us every year.
+
+With the micro frontends approach, we can pick the right technology to build our frontend components. We often have use cases where just plain JavaScript, HTML, and CSS suffice to build a feature, and then there are other cases where we need advanced frameworks like React, Angular, and Vue to implement our features.
+
+With micro frontends, we don’t necessarily have to use React or a similar framework to build a certain component if we don’t need it, despite having other components being implemented using it.
+
+On the flip side, if our website is built on plain JavaScript and we want to use React, we don’t have to re-write the entire website to use React. We can just write specific components that need React and integrate them into the website.
+
+Even if multiple teams use the same technology to build their UI components, they can work on different versions of the technology. They can easily upgrade their libraries without impacting the website’s other UI components.
+
+![image](https://user-images.githubusercontent.com/25869911/155903510-e738cb59-d0c2-477a-bf0d-8520939d9132.png)
+
+Now, moving forward with the micro frontends approach may sound delightful, but it’s only fit for medium to large websites. This approach won’t be that advantageous for simple use cases. Rather, it will make things more complex and prove to be overkill.
+
+Using multiple technologies in a project brings along a lot of architectural and maintenance complexities with it.
+
+With micro frontends, we need to write additional code to combine all the components built with heterogeneous tech. We also have to deal with compatibility and performance issues when using multiple technologies together. So, there are always trade-offs involved. There is no silver bullet.
+
+https://engineering.atspotify.com/2014/03/spotify-engineering-culture-part-1/
+
+### Micro Frontends Integration
+
+Once we have respective micro frontends ready for our online game store, we need to integrate them together to have a functional website. There are two ways we can do this -
+
+* By integrating micro frontends on the client
+* By integrating micro frontends on the server
+
+This concept is similar to the client-side and server-side rendering, which we discussed earlier in the course.
+
+In this micro frontend scenario, we need to write additional logic to enable the integration of the UI components.
+
+#### Client-side integration of micro frontends
+
+A very basic naïve way of integrating components on the client is rendering micro frontends with unique links. We just place the links on the website to enable the user to navigate to a certain micro frontend, like so:
+
+![image](https://user-images.githubusercontent.com/25869911/155903650-d42132d6-a1aa-4741-a746-95786edd2b84.png)
+
+
+Consider this scenario - our order checkout microservice is hosted on AWS having the URL - https://www.aws.amazon.com/onlinegamestore/checkout and our payment service is hosted on Google Cloud with the URL https://www.cloud.google.com/onlinegamestore/payment
+
+When we integrate these micro frontends via basic links and the user navigates from the checkout page to the payment page clicking on the micro frontend link, the address in the user’s browser changes from the AWS URL to the Google Cloud URL. This will be visible to the end-user.
+
+Also, following this basic approach, the micro frontends that need to be integrated within a specific page can be done using Iframes.
+
+![image](https://user-images.githubusercontent.com/25869911/155903699-2fbe4b34-a1ad-4280-920b-9e61b23e525f.png)
+
+Well, you would have realized that this approach is not ideal. This is more like the 90s way of building websites, connecting web pages via direct links and Iframes.
+
+Using IFrames has several downsides: they can’t be bookmarked, they aren’t good from an SEO standpoint, they have stability and performance issues and so on. Besides, IFrames are an obsolete thing in the modern web dev landscape.
+
+A recommended way to integrate components on the client-side is by leveraging a technology called the Web Components and frameworks such as Single SPA.
+
+Single SPA is a JavaScript framework for frontend microservices that enables developers to build their frontend while leveraging different JavaScript frameworks.
+
+If you wish to know more on web components, this Google Chrome devs video is a good resource.
+
+Alright, let’s move on to understand the server-side integration process of micro frontends.
+
+https://single-spa.js.org/
+
+https://www.youtube.com/watch?v=YBwgkr_Sbx0&ab_channel=GoogleChromeDevelopers
+
+### Server side integration
+
+When the UI components are integrated on the server, on the user request, the complete pre-built page of the website is delivered to the client from the server as opposed to sending individual micro frontends to the client and having them clubbed there.
+
+This cuts down the website’s loading time on the client significantly since the browser does not have to do any sort of heavy lifting.
+
+Just like the client-side integration process, we have to write additional logic on the server to integrate the micro frontends that are requested by the user.
+
+There are several technologies and frameworks available that help us to achieve this.
+
+#### Technology and frameworks facilitating server-side integration
+
+Some of the popular frameworks that facilitate server-side integration of micro frontends are Project Mosaic, Open Components and Podium. Server Side Includes SSI is a server-side scripting language used for clubbing the content of multiple web pages on the webserver.
+
+Zalando is a famous fashion e-commerce company in Europe that uses Project Mosaic to manage its micro frontends. Here is a talk on the micro frontends from their engineering team - The Zalando recipe for scalable frontends.
+
+AutoScout24 is one of the leading internet car portals in Europe. Their engineering team leverages SSI technology to build their micro frontends. They gave a talk about their micro frontends approach.
+
+Well, this pretty much sums up our micro frontends chapter. Let’s move on to databases in the next one.
+
+https://www.youtube.com/watch?v=m32EdvitXy4&ab_channel=code.talks%28ehem.DeveloperConference%29
+
+https://www.thoughtworks.com/talks/a-high-performmance-solution-to-microservice-ui-composition
+
+### Introduction and Types of Data
+
+
+
 
