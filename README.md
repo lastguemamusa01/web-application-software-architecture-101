@@ -893,7 +893,6 @@ What are fault-tolerant and redundancy in distributed systems?
 
 Fault Tolerance simply means a system's ability to continue operating uninterrupted despite the failure of one or more of its components. This is true whether it is a computer system, a cloud cluster, a network, or something else.
 
-redundant - not longer needed
 
 ### Reasons For System Failures
 
@@ -952,4 +951,56 @@ There are many upsides of splitting a big monolith into several microservices:
 * Scalability and high availability of the system
 
 Every microservice takes the onus of running different features of an application such as photo upload, comment system, instant messaging, groups, marketplace, etc. In this case, even if a few services go down, the other services of the application are still up.
+
+### Redundancy
+
+#### Redundancy – Active-passive HA mode
+
+Redundancy is duplicating the server instances and keeping them on standby to take over in case any of the active server instances go down. It is the fail-safe backup mechanism in the deployment infrastructure.
+
+![image](https://user-images.githubusercontent.com/25869911/155899006-b51e035b-4c25-4569-b7cd-aaf76d02cf58.png)
+
+The illustration above shows the redundant instances. One of the redundant instances takes over when the active instance goes offline.
+
+This instance setup approach is also known as the Active-passive HA mode. An initial set of nodes are active, and a set of redundant nodes are passive, on standby. Active nodes get replaced by passive nodes in case of failures.
+
+There are systems like GPS, aircraft, communication satellites, etc., that have zero downtime. The availability of these systems is ensured by making the components redundant.
+
+#### Getting rid of single points of failure
+
+Distributed systems became mainstream with large-scale applications solely because, in them, we can eliminate the single points of failure that were a big downside of a monolithic architecture. I discussed this in the previous lesson how microservices facilitate a fault-tolerant architecture.
+
+In a highly available system, a large number of distributed server nodes work in conjunction with each other to achieve a single synchronous application state.
+
+When so many redundant nodes are deployed, there are no single points of failure in the system. In case a node goes down, redundant nodes take its place. The system as a whole remains unimpacted.
+
+Single points of failure at the application component level mean bottlenecks. I discussed this earlier, having just one database instance handling requests from a number of application nodes. We should detect bottlenecks in performance testing and get rid of them as soon as possible.
+
+#### Monitoring and automation
+
+Systems should be well monitored in real-time to detect any bottlenecks or single point of failures. Automation enables the instances to self-recover without any human intervention. It gives the instances the power of self-healing.
+
+Also, the systems become intelligent enough to add or remove instances on the fly as per the requirements. Kubernetes is one good example of this.
+
+Since the most common cause of failures is human error, automation helps cut down failures considerably.
+
+### Replication
+
+Replication – Active-active HA mode
+
+Replication means having a number of similar nodes running the workload together. There are no standby or passive instances. When a single or a few nodes go down, the remaining nodes bear the load of the service.
+
+![image](https://user-images.githubusercontent.com/25869911/155899180-e2cddd5d-0ed7-4e63-a2e6-872aec09c7cd.png)
+
+This approach is also known as the Active-active high availability mode. In this approach, all the server instances are active at any point in time.
+
+#### Geographical distribution of workload#
+
+As a contingency for natural disasters, regional power outages, and other big-scale failures, data center workloads are spread across different data centers across the world in different geographical locations.
+
+This eliminates a single point of failure in the context of data center zones. If a natural disaster wipes out a few data centers in a certain zone, other data centers in different geographical zones are still powering the application. Also, the latency is reduced significantly due to the proximity of data to the user due to the global replication of data centers.
+
+All highly-available fault-tolerant design decisions are subjective to how critical the system is? The odds of components failing and so on.
+
+Businesses often use multi-cloud platforms to deploy their workloads which ensures further availability. If things go south with one cloud provider, they have another to fail back over.
 
