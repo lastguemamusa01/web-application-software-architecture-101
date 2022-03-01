@@ -2679,3 +2679,5 @@ We can also use the message queue temporary storage with a TTL for storing the p
 So, did you see how we transitioned from a pull-based approach to a push-based approach with the help of message queues? This shift will spike the application’s performance and cut down a lot of resource consumption, saving truckloads of our hard-earned money.
 
 
+![image](https://user-images.githubusercontent.com/25869911/156110894-935ae614-70cd-4290-afc7-41589b031659.png)
+
