@@ -1924,3 +1924,40 @@ Both SQL and NoSQL tech have their use cases. We have already gone through them 
 
 #### Why do popular tech stacks always pick NoSQL databases?
 
+Picking the technology based on the use case makes sense, but why do the popular tech stacks always prefer NoSQL databases? For instance, look at the MEAN (MongoDB, ExpressJS, AngularJS/ReactJS, NodeJS) stack.
+
+Well, most of the online applications have standard use cases, and these tech stacks have them covered. There are also commercial reasons behind this.
+
+There are a plethora of tutorials available online and a mass promotion of popular tech stacks. With these resources available, it’s easy for beginners to pick them up and write their applications as opposed to researching technologies fitting their use case.
+
+We don’t always need to pick the popular stacks. Rather, we should pick what fits best with our use case.
+
+This course has a separate lesson on how to pick the right tech stack for our app. We will continue this discussion there.
+
+Coming back to performance, as opposed to technology, the performance of an application is more dependent on factors like application architecture, database design, bottlenecks, network latency, etc.
+
+If we use multiple joins in a relational database, the response will inevitably take more time. If we remove all the complex relationships and joins, a relational database will be as quick as a NoSQL one.
+
+#### Real-world case studies
+
+Facebook uses MySQL for storing its social graph of millions of users. Although it did have to change the DB engine and make some tweaks, MySQL fits best with its use case.
+
+Quora uses MySQL pretty efficiently by partitioning the data at the application level. Here is an interesting read on it.
+
+artitioning the data at the application level - He means don't describe relationship in the database layer, describe them on the application level. That will automatically divide your data at application layer.
+
+Note: A well-designed SQL data store will always be more performant than a not so well-designed NoSQL store.
+
+https://www.quora.com/Why-does-Quora-use-MySQL-as-the-data-store-instead-of-NoSQLs-such-as-Cassandra-MongoDB-or-CouchDB-Are-they-doing-any-JOINs-over-MySQL-Are-there-plans-to-switch-to-another-DB
+
+https://www.scaleyourapp.com/what-database-does-facebook-use-a-1000-feet-deep-dive/
+
+
+#### Using both SQL and NoSQL databases in an application
+
+You may be wondering, can’t I use both SQL and a NoSQL datastore in my application? What if I have a requirement fitting both?
+
+You can!! Moreover, all the large-scale online services use a mix of both to achieve the desired persistence behavior.
+
+The term for leveraging the power of multiple databases clubbed together is polyglot persistence. 
+
