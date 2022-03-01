@@ -2733,3 +2733,8 @@ Here is a recommended read on Facebook’s Live streaming architecture.
 
 https://engineering.fb.com/2015/12/03/ios/under-the-hood-broadcasting-live-video-to-millions/
 
+### Instroduction of Stream Processing
+
+#### Rise of data-driven systems
+
+
