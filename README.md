@@ -2737,4 +2737,60 @@ https://engineering.fb.com/2015/12/03/ios/under-the-hood-broadcasting-live-video
 
 #### Rise of data-driven systems
 
+Our world today is largely data-driven and is progressing towards becoming entirely data-driven. With the advent of the Internet of Things(IoT), entities have gained self-awareness to a certain degree, and they are generating and transmitting data online at an unprecedented rate. They are capable of communicating with each other and can make decisions without any sort of human intervention.
 
+#### Use cases for data-stream processing
+
+The primary large-scale use of IoT devices is in sensors in industries and smart cities, electronic gadgets like drones, smartwatches, cellphones, etc., wearable healthcare body sensors, and so on.
+
+To manage the massive amount of data streaming in, we need to have sophisticated backend systems in place to gather meaningful information and archive/purge not so meaningful data.
+
+The more data we have, the better our systems evolve. Today’s businesses rely on data. They need customer data to make plans and projections. They need to understand the user’s needs and their behavior.
+
+All these things enable businesses create better products, make smarter decisions, run more effective ad campaigns, recommend new products to their customers, gain better insights into the market, etc.
+
+Study of this large-scale data eventually results in more customer-centric products and increased customer loyalty.
+
+Another use case of processing streaming-in data is tracking the service efficiency, for instance, getting the “everything is okay” signal from the IoT devices used by millions of customers. This metadata keeps the businesses informed of the correct functionality and uptime of their products.
+
+All these use cases and more make stream processing key to businesses and modern software applications. Time-series database is one tech I discussed that persists and runs queries on real-time data being ingested from the IoT devices.
+
+In the next lesson, let’s explore the components involved in data-stream processing. We will also look at some of the key architectures in the data processing domain.
+
+### Data Ingestion
+
+#### What is data ingestion?
+
+Data ingestion is a collective term for the process of collecting data streaming in from several different sources and making it ready to be processed by the system.
+
+In a data processing system, the data is ingested from the IoT devices and other sources into the system to be analyzed. It is routed to different components/layers through the data pipelines, algorithms are run on it, and is eventually archived.
+
+#### Layers of data processing setup
+
+There are several stages/layers to this whole data processing setup, such as the:
+
+* Data collection layer
+* Data query layer
+* Data processing layer
+* Data visualization layer
+* Data storage layer
+* Data security layer
+
+
+![image](https://user-images.githubusercontent.com/25869911/156262559-65799263-6196-4892-9e66-25b3d62ce1f9.png)
+
+#### Data standardization
+
+The data, which streams in from several different sources, is not in a homogeneous structured format. We have already gone through different types of data, including structured, unstructured, and semi-structured, in the database lesson. So, you have an idea of what unstructured, heterogeneous data is.
+
+Data streams in into the system at different speeds and sizes from web-based services, social networks, IoT devices, industrial machines, and whatnot. Every stream of data has different semantics.
+
+So, in order to make the data uniform and fit for processing, it has to be first collected and converted into a standardized format to avoid any future processing issues. This data standardization process occurs in the data collection and preparation layer.
+
+#### Data processing
+
+Once the data is transformed into a standard format, it is routed to the data processing layer, where it is further processed based on the business requirements. It is generally classified into different flows and routed to different destinations.
+
+#### Data analysis
+
+After being routed, analytics are run on the data. This includes executing different analytics models such as predictive modeling, statistical analytics, text analytics, etc. All the analytical events occur in the data analytics layer.
