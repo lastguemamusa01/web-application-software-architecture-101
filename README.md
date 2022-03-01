@@ -2383,3 +2383,299 @@ Some of the real-world implementations of the tech:
 https://netflixtechblog.com/aegisthus-a-bulk-data-pipeline-out-of-cassandra-984882557fa
 https://hbase.apache.org/poweredbyhbase.html
 
+
+### What is caching?
+
+When you visit a website and request certain information from the server, how long do you wait for the response?
+
+5 seconds? 10? … 15 seconds? … 30? I know, I know, I am pushing it … 45 seconds? What? Still no response?
+
+What option are you left with than to bounce off and visit another website for your information. We are impatient creatures, and we want our answers quick. Our application needs to have minimum latency and implementing caching enables us to stop users from bouncing off to other websites.
+
+Caching is key to the performance of any kind of application. It ensures low latency and high throughput. An application with caching will undoubtedly do better than an application without caching, simply because a cache intercepts all the requests darting towards the database and provides the response in no time.
+
+Intercepting the database requests allows the database to free its resources to work with other requests, requesting uncached data, for open connections or write operations.
+
+Implementing caching in a web application means copying frequently accessed data from the database, which is disk-based hardware, and storing it in RAM (Random access memory) for quick response.
+
+![image](https://user-images.githubusercontent.com/25869911/156105337-ecbad5f3-e0e7-432a-b313-1bc41178f041.png)
+
+RAM provides faster access than disk-based hardware, ensuring low latency and high throughput. Throughput means the number of network calls or request-response cycles between the client and the server within a stipulated time.
+
+When an application server requests data from the database, it can be called the client and the database would be the server.
+
+A cache can always handle more read requests than a database since it stores the data in a key-value pair and does not have to do much computation when returning the data in contrast to a database.
+
+Frequently requested data queried from the database with the help of several table joins can be cached to avert the same joins query to be run every time the same data is requested. This increases throughput, improves performance and saves resources.
+
+#### Caching dynamic data
+
+With caching, we can cache both the static and the dynamic data. Dynamic data changes more often and has an expiry time or a TTL (Time to live). After the TTL ends, the data is purged from the cache, and the newly updated data is stored in it. This process is known as cache invalidation.
+
+Though the data TTL should be long enough to make effective use of caching, caching won’t help much if the data changes too often, for instance, the price of a stock, the score of a cricket or a baseball match.
+
+#### Caching static data
+
+Static data consists of images, font files, CSS, and similar files. It also includes data such as customer data, their name, age, address, social id, photos, etc. This is the kind of data that doesn’t change often and can easily be cached either on the client-side in their browser, CDN or on the server, depending on the sensitivity.
+
+### Do I Need A Cache?
+
+It’s always a good idea to use a cache as opposed to not using it, especially if we have static data in our application. You’ll come across very few use cases where caching doesn’t help. We also need to remember that caching should be implemented wisely. If not, it can cause data inconsistency issues.
+
+It can be used at any layer of the application, with any component and there are no ground rules as to where it can and cannot be applied.
+
+The most common usage of caching is database caching. Caching helps alleviate the stress on the database by intercepting the requests being routed to it.
+
+#### Different components in the application architecture where the cache can be used
+
+![image](https://user-images.githubusercontent.com/25869911/156105908-9665eb96-cf8e-4abd-a91c-41ebf380bdcc.png)
+
+Across the architecture of our application, we can use caching at multiple places, right from the browser to the database component. Caching is used in the client browser to cache static data. It is used with the database to intercept all the data requests. It is used in the REST API implementation, also in cross-module communication in a microservices architecture, etc.
+
+Besides these components, I suggest you look for patterns. We can always cache the frequently accessed content on our website, be it from any component. There is no need to repeatedly poll any component for the same data when it can be cached.
+
+Think of joins in relational databases. They are notorious for making the response slow. More joins mean more latency. A cache can avert the need for running joins every time by storing the data in demand. Imagine how much this mechanism would speed up our application.
+
+Also, even if the database goes down for a while, the users won’t notice it since the cache would continue to serve the data requests.
+
+Caching is also the core of the HTTP protocol. We can store user sessions in a cache. Key-value data stores are primarily used to implement caching in web applications.
+
+### Reducing the Application Deployment Costs via Caching
+
+#### Real-world use cases
+
+##### Stock market-based multiplayer game
+
+In this lesson, I will share an insight from a stock market-based multiplayer game that I developed and deployed on the cloud.
+
+The game had stocks of numerous companies listed on the stock market and the algorithm would trigger the stocks’ price movement based on certain parameters every second, if not before.
+
+Initially, I persisted the updated stock price in the database as soon as the prices changed to create a stock price movement timeline at the end of the day. However, the number of database writes for the stocks price movement for the whole day was very high, having the potential to create a crater in my pocket.
+
+Eventually, I decided not to persist the updated price every second in the database and rather use a cache (Memcache) to persist the updated stock prices. I then scheduled a batch operation that would run throughout the day every few hours to update the database with the stock prices.
+
+In the cloud, writing to Memcache was cheaper than writing to the database by quite an extent. The cache served all the stock price read-write requests, and the database got the updated values when the batch operation ran.
+
+This tweak may not be ideal for a real-life Fintech app. However, it helped me save a truckload of money and allowed me to run the game for a more extended period of time.
+
+So, this is one instance where you can leverage the caching mechanism to cut down costs. There are use cases where you might not want to persist every little information in the database and instead use the cache to store that not-so-mission-critical information.
+
+##### Polyhaven - a 3D asset library
+
+This is a very rudimentary example of how an application with static data can leverage caching to significantly cut down its deployment costs.
+
+I recommend reading this blog article that I wrote on how Polyhaven, a 3D asset library, managed 5 million page views and 80TB traffic a month for less than 400 USD by leveraging caching. If it weren’t for it, the storage cost for all that data on a cloud object-based storage would cost them approx. 4K USD a month.
+
+![image](https://user-images.githubusercontent.com/25869911/156106458-8c7e31f6-be2c-4a75-b2b0-f7bddbe28955.png)
+
+https://www.scaleyourapp.com/application-hosting-how-polyhaven-manages-5-million-page-views-and-80tb-traffic-a-month-for-400/
+
+In the next lesson, let’s look into some of the caching strategies we can leverage to enhance the app’s performance further.
+
+### Caching Strategies
+
+Here are some of the commonly used caching strategies in application development: cache aside, read-through, write-through and write-back. Every caching strategy has a specific use case.
+
+#### Cache aside
+
+Cache aside is the most commonly used caching strategy. In this approach, the cache works along with the database intending to reduce the hits on it as much as possible.
+
+The data is lazy-loaded in the cache. When the user sends a request for particular data, the system first looks for it in the cache. If present, it is simply returned. This is called a cache hit.
+
+If not, this is called a cache miss. In this case, the application fetches the data from the database and returns it to the user, also updating the cache for future requests.
+
+When it comes to data write, it is directly written to the database. Now, this could cause data inconsistency between the cache and the database. To avoid this, the data on the cache has a TTL (Time to live). After it expires, the data is invalidated from the cache.
+
+This caching strategy works best with read-heavy workloads. The data that does not get updated too frequently, like customer data (name, account number, etc.) is cached using the cache aside strategy. We can assign a long TTL to this kind of data.
+
+#### Read-through
+
+This strategy is similar to the cache aside strategy. A subtle difference is that the cache in a read-through strategy always automatically stays consistent with the database.
+
+The cache library, or the framework, takes the onus of maintaining consistency with the database. On the contrary, in the cache aside strategy, we have to write explicit logic to update the cache.
+
+Application data in this strategy is also lazy-loaded in the cache only when the user requests it. Also, the data model of the cache has to be consistent with the database since it is updated automatically by the library.
+
+#### Write-through
+
+In this strategy, the cache sits in line with the database. Every write goes through the cache before updating the database.
+
+This maintains high data consistency between the cache and the database. However, it adds a little latency during the write operations since the data has to be additionally written to the cache. Well, this is a trade-off.
+
+This caching strategy works well for use cases where we need strict data consistency between the cache and the database. It is generally used with other caching strategies to achieve optimized performance.
+
+#### Write-back
+
+This caching strategy helps optimize application hosting costs significantly. In it, the data is directly written to the cache instead of the database, and the cache, after some delay, as per the business logic, writes data to the database.
+
+This is what I pulled off in my stock market game. If there are quite a number of writes in the application, developers can reduce the frequency of database writes to cut down the load on it and the associated write operation costs.
+
+A risk in this approach is if the cache fails before the DB is updated, the data might get lost. Again, this strategy is clubbed with other caching strategies to get the best of all the worlds.
+
+### What is a message queue?
+
+A message queue, as the name says, is a queue that routes messages from the source to the destination or the sender to the receiver following the FIFO (First in, first out) policy.
+
+The message that is added to the queue first is delivered first. Besides FIFO, messages queues also support priority-based message delivery. Messages have a priority assigned to them and the queue processes the messages based on the priority set. These message queues are called priority queues.
+
+![image](https://user-images.githubusercontent.com/25869911/156108133-ae1c3e5a-ea84-487a-abb3-cbc0bd2462a4.png)
+
+#### Features of a message queue
+
+Message queues facilitate asynchronous behavior. We have already learned what asynchronous behavior is in the AJAX lesson. Asynchronous behavior allows the modules to communicate in the background without hindering their primary tasks.
+
+Message queues facilitate cross-module communication, which is key in service-oriented and microservices architecture. They enable communication in a heterogeneous environment, providing temporary storage for storing messages until they are processed and consumed by the consumer.
+
+Let’s look at a real-world example to understand message queues.
+
+#### Real-world example of a message queue
+
+Take an email service as an example. Both the sender and receiver of the email don’t have to be online at the same time to communicate with each other. The sender sends an email, and the message is temporarily stored on the message server until the recipient comes online and reads the message.
+
+Message queues enable us to run background processes, tasks, and batch jobs. Speaking of background processes, let’s understand this better with the help of a use case.
+
+Think of a user signing up on a portal. After they sign up, they are immediately allowed to navigate to the application’s homepage, but the sign-up process isn’t complete yet. The system has to send a confirmation email to the user’s registered email id. Then, the user has to click on the confirmation email to confirm the sign-up event.
+
+However, the website cannot keep the user waiting until it sends the email to the user. They are immediately allowed to navigate to the application’s home page to avert them from bouncing off.
+
+So, the task of sending a sign-up confirmation email to the user is assigned as an asynchronous background process to a message queue. It sends an email while the user continues to browse the website.
+
+This is how message queues are leveraged to add asynchronous behavior to an application. Message queues are also used to implement notification systems similar to Facebook notifications. I’ll discuss this in the upcoming lessons.
+
+Moving on to the batch jobs.
+
+#### Message queue in running batch jobs
+
+Do you remember the stock market game use case from the caching lesson where I discussed how I leveraged a cache to reduce application hosting costs?
+
+The batch job, which updated the stock prices at regular intervals in the database, was run by a message queue.
+
+So, we now know what a message queue is and why we use it in applications. In a message queue, there is a message sender called the producer, and there is a message receiver called the consumer.
+
+Both the producer and the consumer don’t have to reside on the same machine to communicate. This is pretty obvious.
+
+While routing messages through the queue, we can define several rules based on our business requirements. Adding priority to the messages is one that I pointed out. Other essential queuing features include message acknowledgments, retrying failed messages, etc.
+
+Speaking of the size of the queue, how big can it get, how many messages it can contain? Well, there is no definite size to it, and it can be an infinite buffer, considering the business has unlimited resources to run its infrastructure.
+
+Now, let’s look into the messaging models widely used in the industry, beginning with the publish-subscribe message routing model, which is responsible for how we consume information at large.
+
+### Publish-Subscribe Model
+
+#### What is a publish-subscribe model?#
+
+A publish-subscribe model, aka pub-sub, is a model that enables a single or multiple producers to broadcast messages to multiple consumers.
+
+![image](https://user-images.githubusercontent.com/25869911/156108896-c739f729-7395-4fa0-a9c7-7ed5abf9c8c8.png)
+
+A good analogy of this model is a newspaper service. Consumers subscribe to a newspaper service, and the service delivers the news to multiple consumers of its service every single day.
+
+In the online world, we often subscribe to various topics, such as sports, politics, economics, etc., in applications to be continually notified of the latest updates on that particular segment.
+
+#### Exchanges
+
+To implement the pub-sub pattern, message queues have exchanges that push the messages to the message queues based on the exchange type and the set rules. Exchanges here are just like telephone exchanges that route messages from the sender to the receiver through the infrastructure based on certain logic.
+
+![image](https://user-images.githubusercontent.com/25869911/156109085-43867ab4-fe9a-4787-8baf-744eb5c98c7a.png)
+
+There are different types of exchanges available in message queues, some of which are: direct, topic, headers, and fanout. Each exchange type has specific functionality and a use case.
+
+Different message queue technologies have different implementations of exchange types. I just brought up the commonly used exchange types in message queues.
+
+The fanout exchange will fit best for implementing a pub-sub pattern. It will push the messages to the queue and the consumers will receive the message broadcast. The relationship between the exchange and the queue is known as binding.
+
+Message queues and publish-subscribe pattern are responsible for delivering real-time news, updates, notifications on social apps to the end-users. The end-users follow certain pages, and they start receiving updates on the content published by those pages continually.
+
+In the upcoming lessons, I will discuss how real-time feeds and notification systems work in social networks powered by the message queues in detail.
+
+In the next lesson, let’s move on to the point-to-point messaging model.
+
+There are different types of exchanges available in message queues, some of which are: direct, topic, headers, and fanout. Each exchange type has specific functionality and a use case.
+
+Different message queue technologies have different implementations of exchange types. I just brought up the commonly used exchange types in message queues.
+
+The fanout exchange will fit best for implementing a pub-sub pattern. It will push the messages to the queue and the consumers will receive the message broadcast. The relationship between the exchange and the queue is known as binding.
+
+Message queues and publish-subscribe pattern are responsible for delivering real-time news, updates, notifications on social apps to the end-users. The end-users follow certain pages, and they start receiving updates on the content published by those pages continually.
+
+In the upcoming lessons, I will discuss how real-time feeds and notification systems work in social networks powered by the message queues in detail.
+
+In the next lesson, let’s move on to the point-to-point messaging model.
+
+### Point-to-Point Model
+
+#### What is a point-to-point model?
+
+In a point-to-point model, a message from the producer is consumed by only one consumer.
+
+![image](https://user-images.githubusercontent.com/25869911/156109363-d241027e-2d2d-480b-952f-da3a2b57280e.png)
+
+
+Though based on the business requirements, we can set up multiple combinations in this messaging model, including adding multiple producers and consumers to a queue. However, only one consumer will consume a message sent by the producer. This is why this model is called a point-to-point queuing model. It’s not a broadcast of messages rather an entity to entity communication.
+
+#### Messaging protocols
+
+There are two popular protocols when working with message queues: AMQP Advanced Message Queue Protocol and STOMP Simple or Streaming Text Oriented Message Protocol.
+
+Since they are protocols, I won’t be delving into them further. Every messaging technology, RabbitMQ, ActiveMQ, Apache Kafka, will have its own implementations of these protocols.
+
+### Notification Systems and Real-Time Feeds with Message Queues
+
+This is the part where you get an insight into how notification systems and real-time feeds are designed with the help of message queues.
+
+Folks! Notification systems and real-time feed are complex modules in today’s modern Web 2.0 applications. They involve a lot of tasks such as understanding user behavior, recommending new and relevant content to the users on the platform, ingesting data from different sources, matching user behaviour with that data, and so on. They also leverage machine learning in order to be more effective.
+
+We won’t get into that level of complexity simply because it’s not required. I present a very simple use case to wrap our heads around it.
+
+Also, as I discuss this use case, I need you to think how you would do it if you were to design such a notification system from the bare bones. This will help you understand the concept better.
+
+#### Notification system - use case
+
+Imagine building a social network like Facebook using a relational database. A message queue is required to add asynchronous behavior to our application.
+
+In the application, a user will have many friends and followers. This is a many-to-many relationship, like a social graph. One user has many friends, and they would be friends of many users.
+
+![image](https://user-images.githubusercontent.com/25869911/156109770-fd187a5a-e0bd-425d-94a9-dc798d43700b.png)
+
+
+So, when a user creates a post on the website, the application will persist it in the database. There will be one User table and another Post table. Since one user will create many posts, it will be a one-to-many relationship between the user and their posts.
+
+As we persist the post in the database, we also have to show the information posted by the user on the home page of their friends and followers, even send notifications if needed.
+
+#### Pull-based approach
+
+One straightforward way to implement this without the message queue will be to have every user on the website poll the database at regular short intervals if any of their connections have a new update.
+
+For this, for showing notifications on a certain user profile, we will query all the connections of the user from the database and then run a check on every connection one by one if any new information is posted by them.
+
+If there are new posts created by the user’s connections, the query will pull them all and display the posts on the home page of the user’s profile. We can also send the notifications to the user about the new posts, tracking them with the help of a boolean notification counter column in the User table and adding an extra AJAX poll query from the client for new notifications.
+
+Whenever the database query finds new posts, it changes the new notification counter to true. When the counter is true, responding to the Ajax poll request, the application sends a notification to the user that you have recent posts made by your connections.
+
+![image](https://user-images.githubusercontent.com/25869911/156110039-9385c86b-abba-4dc4-ab1b-39b480670af9.png)
+
+What do you think of this approach? It’s pretty straightforward, right?
+
+Well, there are two major downsides to this approach.
+
+First, we are polling the database so often. This is expensive. It will consume a lot of bandwidth and put a lot of unnecessary load on the database.
+
+The second downside is that a user’s post displayed on the home page of their connection’s homepage will not be in real-time. The posts won’t show until the database is polled. We may assume this as real-time, but it is not really real-time.
+
+#### Push-based approach
+
+Let’s make our system more performant. Instead of polling the database now and then, we will take the help of a message queue.
+
+In this scenario, when a user creates a new post, it will have a distributed transaction. One transaction will update the database, and the other will send the post payload to the message queue. Payload means the content of the message posted by the user.
+
+Notification systems and real-time feeds establish a persistent connection with the database to facilitate streaming data in real-time. We have already been through this.
+
+![image](https://user-images.githubusercontent.com/25869911/156110308-51e2d8c5-5d11-4392-9ceb-c1b64026d96c.png)
+
+On receiving the message, the message queue will asynchronously and immediately push the post to the user’s connections that are online. There is no need for them to poll the database regularly to check if any of their connections have created a post.
+
+We can also use the message queue temporary storage with a TTL for storing the payload until the connections of the user come online and then push the updates to them. We can also have a separate key-value database to store the user’s details required to push the notifications to their connections, like their connection list and stuff. This would avert the need to poll the database to get the connections of the user every time the user creates a post.
+
+So, did you see how we transitioned from a pull-based approach to a push-based approach with the help of message queues? This shift will spike the application’s performance and cut down a lot of resource consumption, saving truckloads of our hard-earned money.
+
+
