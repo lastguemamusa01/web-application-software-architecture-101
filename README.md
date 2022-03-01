@@ -2681,3 +2681,55 @@ So, did you see how we transitioned from a pull-based approach to a push-based a
 
 ![image](https://user-images.githubusercontent.com/25869911/156110894-935ae614-70cd-4290-afc7-41589b031659.png)
 
+There are several ways we can handle distributed transactions. Though the transactions are distributed, they can still work as a single unit. In case the database persistence fails, the application will roll back the entire transaction. There won’t be any message push to the message queue either.
+
+What if the message queue push fails? And the database transaction succeeds? Do you want to roll back the transaction, or do you want to proceed? The decision depends entirely on you, how you want your system to behave.
+
+Even if the message queue push fails, the message isn’t lost. It can still be persisted in the database.
+
+When the user refreshes their homepage, you can write a query to poll the database for the new updates, taking the polling approach we discussed initially as a backup.
+
+Or you can totally roll back the transaction, even if the database persistence transaction is a success but the message queue push transaction fails. The post hasn’t gone into the database yet as it is generally a two-phase commit.
+
+We can always write custom code to manage the distributed transactions or can choose to leverage the distributed transaction managers that the frameworks offer.
+
+I can keep going on to the minutest of the details, but that would just make the lesson unnecessarily lengthy, complex and overkill. For now, I have just touched the surface of notification modules to help you understand how they work.
+
+Post creation is an event that a user triggers in the application. Similar events are liking a post, photo, video, watching a live-stream and so on.
+
+Just like posts, message queues can push these events too to the connections of a user.
+
+When designing systems, I want to emphasize that there is no perfect or best solution. The solution should serve us well, fulfilling our business requirements and simultaneously maintaining costs. Application maintenance and optimization are evolutionary, don’t sweat about it in the initial development cycles.
+
+First, get the skeleton in place and then optimize notch by notch.
+
+https://www.scaleyourapp.com/linkedin-real-time-architecture-how-does-linkedin-identify-its-users-online/
+
+### Handling Concurrent Requests with Message Queues
+
+### Using a message queue to handle the traffic surge
+
+In the distributed NoSQL databases lesson, we learned about eventual consistency and strong consistency. We discussed how both the consistency models come into effect when incrementing a “Like” counter value.
+
+Here is a quick insight into how we can use a message queue to manage a high number of concurrent requests to update an entity.
+
+When millions of users around the world update an entity concurrently, we can queue all the update requests in a high throughput message queue. Then, we can process them one by one in a First in First Out (FIFO) approach sequentially.
+
+This would enable the system to be highly available and open to updates while remaining consistent at the same time.
+
+Though implementing this approach is not as simple as it sounds, implementing anything in a distributed, real-time environment is not so trivial.
+
+#### Facebook handles concurrent requests on its live video streaming service with a message queue
+
+Facebook’s approach of handling concurrent user requests on its LIVE video streaming service is another good example of how queues can be used to efficiently handle the traffic surge.
+
+On the platform, when a popular person goes LIVE, there is a surge of user requests on the LIVE streaming server. To avert the incoming load on the server, Facebook uses cache to intercept the traffic.
+
+However, since the data is streamed LIVE, the cache often is not populated with real-time data before the requests arrive. Now, this would naturally result in a cache-miss, and the requests would move on to hit the streaming server.
+
+To avert this, Facebook queues all the user requests, requesting the same data. It fetches the data from the streaming server, populates the cache, and then serves the queued requests from the cache.
+
+Here is a recommended read on Facebook’s Live streaming architecture.
+
+https://engineering.fb.com/2015/12/03/ios/under-the-hood-broadcasting-live-video-to-millions/
+
