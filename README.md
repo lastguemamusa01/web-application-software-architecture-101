@@ -2102,3 +2102,284 @@ Queuing all the write requests is one good way of making a system strongly consi
 So, by now, I am sure you have realized that moving ahead with the strong consistency model hits the capability of the system to scale and be highly available. While one user updates the data, the system does not allow other users to perform concurrent updates. However, this behavior is what enables the implementation of ACID transactions.
 
 Distributed systems like NoSQL databases that scale horizontally on the fly don’t support ACID transactions globally, and this is due to their inherent design. Well, the whole reason for the development of NoSQL tech was its ability to scale and be highly available.
+
+### CAP Theorem
+
+#### What is the CAP theorem?
+
+CAP stands for consistency, availability, partition tolerance. We’ve gone through consistency and availability in great detail. Partition tolerance means fault tolerance, how tolerant the system is of failures or partitions. The system should ideally keep working even when a few nodes go offline.
+
+There are many definitions of this theorem that you will find online. Most of them state that amongst the three, consistency, availability, and partition tolerance, we can only pick two. I find this a teeny tiny bit confusing, so I will try to give a simpler explanation of the theorem.
+
+The CAP theorem states that in case of a network failure, when a few of the system nodes are down, we have to choose between availability and consistency.
+
+If we pick availability, this means when a few nodes are down, the other nodes are available to the users to perform write operations updating the application data. In this situation, the system is left inconsistent because the nodes that are down don’t get updated with the new data. When they come back online and if a user fetches the data from them, they’ll return the old values they had when they went down.
+
+If we pick consistency, in this scenario, we have to lock down all the nodes for further writes until the nodes that have gone down come back online. This would ensure the strong consistency of the system because all the nodes will have the same entity values.
+
+Picking between availability and consistency largely depends on our use case and the business requirements. We have been through this in great detail. Also, the design of the distributed systems (CAP theorem) forces us to choose one. We can’t have both availability and consistency at the same time.
+
+Nodes spread around the globe will take some time to reach a consensus. It’s impossible to have zero latency.
+
+### Types of Databases
+
+#### Different types of databases
+
+There are numerous types of databases that are available to the application developers, catering to specific use cases. These are:
+
+* Document-oriented database
+* Key-value datastore
+* Wide-column database
+* Relational database
+* Graph database
+* Time-series database
+* Databases dedicated to mobile apps and so on.
+
+### Document-Oriented Database
+
+#### What is a document-oriented database?
+
+Document-oriented databases are the leading types of NoSQL databases. They store data in a document-oriented model in independent documents. The data is generally semi-structured and stored in a JSON-like format.
+
+
+The data model is similar to the data model of our application code, so it’s easier to store and query data for developers.
+
+Document-oriented stores go along well with the Agile software development methodology as it is easier to change things with evolving demands when working with them. Though datastores/technologies and software development methodologies do not have any co-relation per se.
+
+#### Popular document-oriented databases
+
+Some of the popular document-oriented stores used in the industry are MongoDB, CouchDB, OrientDB, Google Cloud Datastore, and Amazon DocumentDB.
+
+#### When do I pick a document-oriented data store for my project?
+
+Pick a document-oriented data store if:
+
+* You are working with semi-structured data and need a flexible schema that will change often.
+* You aren’t sure about the database schema when you start writing the app, there is a possibility that things might change over time and you need something flexible that you could change over time with minimum fuss.
+* You need to scale fast and stay highly available.
+
+Typical use cases of document-oriented databases include:
+
+* Real-time feeds
+* Live sports apps
+* Writing product catalogues
+* Inventory management
+* Storing user comments
+* Web-based multiplayer games
+
+Being in the family of NoSQL databases, document-oriented databases provide horizontal scalability and performant read-writes because they cater to CRUD (Create Read Update Delete) use cases. These include scenarios where there isn’t much complex relational logic involved and all we need is quick persistence and data retrieval.
+
+#### Real-life implementations
+
+Here are some of the good real-life implementations of the tech:
+
+SEGA uses Mongo-DB to improve the experience for millions of mobile gamers.
+
+Coinbase scaled from 15k requests per min to 1.2 million requests per minute with MongoDB
+
+https://www.mongodb.com/blog/post/sega-hardlight-migrates-to-mongodb-atlas-simplify-ops-improve-experience-mobile-gamers
+
+https://blog.coinbase.com/scaling-connections-with-ruby-and-mongodb-99204dbf8857
+
+### Graph Database
+
+#### What is a graph database?
+
+Graph databases are a part of the NoSQL family. They store data in nodes/vertices and edges in the form of relationships. Each node in a graph database represents an entity, it can be a person, a place, a business, etc., and the edge represents the relationship between the entities.
+
+![image](https://user-images.githubusercontent.com/25869911/156097060-e9781554-d2a1-48d3-9110-d6a35da48359.png)
+
+But, why use a graph database to store relationships when we already have SQL-based relational databases available?
+
+#### Why use a graph database?
+
+There are instances when complex relationships stored in a relational database across tables become slow to query. Developers have to unwillingly use joins to fetch data and joins across multiple tables slow things down.
+
+With the graph data model, there is less fighting the database in production since data is accessed with low latency. And there is a reason for this.
+
+Graph data model fits best for modelling real-world use cases where entities have complex relationships.
+
+#### Real-world use cases of graph databases#
+
+##### Modeling relationships between users in social networks
+
+Facebook built its graph search feature using the graph data structure and the associated algorithms. The core feature of social networks today is to map the relationships between their users. And these relationships are multi-dimensional; besides just mapping friendships, these networks also map links between users and their favourite restaurants, cuisines, sports teams, etc.
+
+![image](https://user-images.githubusercontent.com/25869911/156097294-483ff7b4-7816-44d7-852b-d93f6fb3d305.png)
+
+Empowered by these relationships, these networks can recommend users where to: dine, travel, be friends with, and so on.
+
+A graph data structure has a set of vertices or nodes and the associated edges. Vertices/nodes are typically seen as users or entities in a network, and the edges are seen as relationships, as you see in the illustration.
+
+There are two primary ways of representing graphs: Adjacency List and the Adjacency Matrix; which one to pick depends on the kind of operation to be performed on the graph.
+
+Adjacency Matrix ideally helps figure out queries like if a relationship between two nodes exists, in constant time O(1), though it is a bit space-intensive. If the nodes in a graph contain a lot of edges, we tend to represent it with the adjacency matrix. On the flip side, if the edges are sparse, we represent the graph using the adjacency list.
+
+In the case of a social network, where there are, say, 2 billion users/nodes, a user/node on average would have 500 friends/edges. The edges are pretty sparse in context to the number of nodes. We would pick an adjacency list to represent this kind of graph; using an adjacency matrix would be a waste of memory. If the relationships/edges between the nodes were in billions, we could have then chosen the adjacency matrix to represent the graph. It all depends on the use case.
+
+Graphs are traversed using the search algorithms depth-first search and breadth-first search, which are implemented using stack and queue data structures, respectively. Depth-first search is primarily run to find paths and connectivity between the nodes, detect cycles in a graph, and more. Breadth-first search is used to find the shortest path between two nodes.
+
+Though this is not a tutorial on the graph data structure, I am delving into the details just for the sake of helping you understand how graph databases are built to model real-world data having relationships.
+
+In graph databases, the relationships are stored differently from how relational databases store relationships.
+
+Graph databases are faster because the relationships in them are not calculated at query time, as it happens with the help of joins in the relational databases. Rather, the relationships here are persisted in the datastore in the form of edges, and we just have to fetch them; no need to run any sort of computation at the query time.
+
+##### Google maps is one big graph
+
+Besides mapping user relationships etc., in social networks, graphs also represent cities and networks. Google Maps and cab booking apps like Uber, Ola are perfect examples of this.
+
+In Google Maps, nodes represent cities, and the edges are the roads between these cities. The nodes could further represent places in a city, intersections, and even houses. The entire application is one big map that heavily uses graph theory to find the shortest distance between the two places.
+
+![image](https://user-images.githubusercontent.com/25869911/156097998-eaf85147-1e5c-435c-829a-3645de3dd63b.png)
+
+The same goes for flight networks where each node represents an airport and the edges flights between them.
+
+In graph theory, based on the use case, different algorithms are used to calculate the shortest path between two nodes. A few of the popular ones are Dijkstra’s algorithm, Bellman-Ford algorithm, A* search algorithm, Floyd–Warshall algorithm, Johnson’s algorithm, and the Viterbi algorithm.
+
+Mobility service providers like Uber, Ola use different routing algorithms to find an efficient route between pickup and drop locations.
+
+##### Graphs in Google’s page rank algorithm
+
+Google’s page rank algorithm is built on graph theory. The web pages are considered as nodes, and the links between them, the edges. Further, the nodes have weights. Weights decide the authority of a page on the web. If a web page contains detailed information on a particular topic and links to credible sources, it is given a higher weight, and the pages higher in weight are ranked first.
+
+These are a few examples of popular real-world products and features modeled on graphs and the associated algorithms that have genuinely changed our lives.
+
+##### When do I pick a graph database?
+
+Ideal use cases of graph databases are building social, knowledge, and network graphs, writing AI-based apps, recommendation engines, fraud analysis apps, storing genetic data, and so on.
+
+Anytime you need to store complex relationships, consider a graph database. Graph databases help us visualize our data with minimum latency. A popular graph database used in the industry is Neo4J.
+
+#### Real-life Implementations
+
+Here are some of the real-life implementations of the tech:
+
+Walmart shows product recommendations to its customers in real-time using the Neo4J graph database.
+
+NASA uses Neo4J to store “lessons learned” data from their previous missions to educate the scientists and engineers.
+
+https://neo4j.com/blog/walmart-neo4j-competitive-advantage/
+
+https://neo4j.com/blog/david-meza-chief-knowledge-architect-nasa/
+
+### Key-Value Database
+
+#### What is a key-value database?
+
+Key-value databases are also a part of the NoSQL family. These databases use a simple key-value pairing method to store and quickly fetch the data with minimum latency.
+
+#### Features of a key-value database
+
+Due to the minimum latency they ensure, that is constant O(1) time, the primary use case for these databases is caching application data.
+
+The key serves as a unique identifier and has a value associated with it. The value can be as simple as a string and as complex as an object graph.
+
+The data in key-value databases can be fetched in constant time O(1), and there is no query language required to fetch the data. It’s just a simple no-brainer fetch operation. This ensures minimum latency.
+
+As discussed earlier in the course, these databases are also used to achieve a consistent state in distributed systems.
+
+#### Popular key-value databases
+
+Some of the popular key-value data stores used in the industry are Redis, Hazelcast, Riak, Voldemort, and Memcached.
+
+#### When do I pick a key-value database?
+
+If you have a use case where you need to fetch data real fast with minimum fuss, you should pick a key-value datastore.
+
+Key-value stores are built to serve use cases that require super-fast data fetch.
+
+Typical use cases of a key-value database are:
+
+* Caching
+* Persisting user state
+* Persisting user sessions
+* Managing real-time data
+* Implementing queues
+* Creating leaderboards in online games and web apps
+* Implementing a pub-sub system
+
+#### Real-life implementations
+
+Here are some of the real-life implementations of the tech:
+
+* Inovonics uses Redis to drive real-time analytics on millions of sensor data.
+* Microsoft uses Redis to handle the traffic spike on its platforms
+* Google Cloud uses Memcached to implement caching on their cloud platform.
+
+https://redis.com/docs/microsoft-relies-redis-labs/
+https://redis.com/customers/inovonics/
+https://cloud.google.com/appengine/docs/standard/python/memcache/
+
+### Time Series Database
+
+#### What is a time-series database?
+
+Time-series databases are optimized for tracking and persisting data that is continually read and written in the system over a period of time.
+
+#### What is time-series data?
+
+It is the data containing data points associated with the occurrence of events with respect to time. These data points are tracked, monitored, and aggregated based on specific business logic.
+
+Time-series data is generally ingested from IoT devices, self-driving vehicles, industry sensors, social networks, stock market financial data, etc.
+
+What is the need for storing such massive amounts of time-series data?
+
+#### Why store time-series data?
+
+Studying data streaming-in from applications helps us track the behavior of the system as a whole. It allows us to study user patterns, anomalies, and how things change over time.
+
+Time-series data is primarily used for running analytics and deducing conclusions. It helps the stakeholders make future business decisions by looking at the analytics results. Running analytics enables us to evolve our product continually.
+
+Regular databases are not built to handle time-series data. With the advent of IoT, these databases are getting pretty popular and adopted by the big guns in the industry.
+
+#### Popular time-series databases
+
+Some of the popular time-series databases used in the industry are Influx DB, Timescale DB, Prometheus, etc.
+
+#### When to pick a time-series database?
+
+If you have a use case where you need to manage data in real-time, continually over a long period of time, a time-series database is what you need.
+
+As you know, time-series databases are built to deal with streaming data in real-time. Its typical use cases are fetching data from IoT devices, managing data for running monitoring and analytics, writing an autonomous trading platform that deals with changing stock prices in real-time, etc.
+
+#### Real-life implementations
+
+Here are some of the real-life implementations of the tech:
+
+IBM uses Influx DB to run analytics for real-time cognitive fraud detection.
+Spiio uses Influx DB to remotely monitor vertical lining green walls and plant installations.
+
+https://www.influxdata.com/customer/ibm/
+https://www.influxdata.com/customer/customer_case_study_spiio/
+
+### Wide-Column Database
+
+#### What is a wide-column database?
+
+Wide-column databases belong to the NoSQL family of databases and are primarily used to handle massive amounts of data, technically called Big Data.
+
+Wide-column databases are perfect for analytical use cases. They have a high performance and a scalable architecture.
+
+Also known as column-oriented databases, wide-column databases store data in a record with a dynamic number of columns. A record can hold billions of columns.
+
+#### Popular wide-column databases
+
+Some of the popular wide-column databases are Cassandra, HBase, Google BigTable, ScyllaDB, etc.
+
+#### When To Pick a wide-column database?
+
+If you have a use case where you need to grapple with Big Data, a wide-column database would fit best.
+
+Wide-column databases are built to manage Big Data, ensuring scalability, performance, and high availability.
+
+#### Real-life implementations
+
+Some of the real-world implementations of the tech:
+
+* Netflix uses Cassandra in the analytics infrastructure.
+* Adobe and other big guns use HBase for processing large amounts of data.
+
+https://netflixtechblog.com/aegisthus-a-bulk-data-pipeline-out-of-cassandra-984882557fa
+https://hbase.apache.org/poweredbyhbase.html
+
