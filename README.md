@@ -1671,6 +1671,256 @@ https://www.thoughtworks.com/talks/a-high-performmance-solution-to-microservice-
 
 ### Introduction and Types of Data
 
+#### What is a database?
+
+A database is a component in application architecture required to persist data. Data can be of many forms: structured, unstructured, semi-structured, and user state data.
+
+![image](https://user-images.githubusercontent.com/25869911/156076377-22d64422-eb23-4ee7-915f-df91daa84c90.png)
+
+#### Structured data
+
+Structured data is the type of data that conforms to a certain structure, typically stored in a database in a normalized fashion.
+
+Structured data is the most easy to work with since it does not need any sort of data preparation before we can interact with it.
+
+An example of this type of data is the details of a customer stored in a database row. The customer Id would be of integer type, the name would be of string type with a certain character limit, age would be of integer type and so on.
+
+Every column of the database row has some pre-defined rules for the data that is meant to be persisted in it. With structured data, we know what we are dealing with. Since the customer name is strictly of string type, we can run string operations on it without worrying about errors or exceptions.
+
+Structured data is typically managed by a query language such as SQL (Structured query language).
+
+#### Unstructured data
+
+Unstructured data has no definite structure. It is the heterogeneous type of data consisting of text, image files, videos, multimedia files, pdfs, blob objects, word documents, machine-generated data, etc.
+
+We generally have to deal with this kind of data when running data analytics. In a data analytics architecture, the data streams in from multiple sources such as IoT devices, social networks, web portals, industry sensors, etc., into the analytics system.
+
+We cannot directly interact with unstructured data. The initial data collected is pretty raw. We have to make it flow through a data preparation stage that segregates it based on business logic and then analytics algorithms are run to extract meaningful information.
+
+![image](https://user-images.githubusercontent.com/25869911/156076997-d62228f5-2113-4e55-9c55-e6f08170f7b7.png)
+
+#### Semi-structured data
+
+Semi-structured data is a mix of structured and unstructured data. This data is often stored in data transport formats such as XML, JSON and handled as per the business requirements.
+
+#### User state
+
+User state data is the data containing the information of activity the user performs on the website.
+
+For instance, when browsing through an e-commerce website: the user typically browses through several product categories, sorts the products based on different parameters, clicks on recommended products, adds a few of them to the wishlist and the availability notification list, and so on.
+
+All this activity is the user state. Storing user state helps businesses improve the user browsing experience and the conversion rate on their website. Also, persisting the state enables the users to continue from where they left off when they log in next. It does not feel like they are starting fresh on a website.
+
+So, now that we are clear on the different types of data, let’s look into different kinds of databases. There are different kinds of databases fitting different use cases. 
+
+### Relational Databases
+
+#### What is a relational database?
+
+A relational database persists data containing relationships: one to one, one to many, many to many, many to one, etc. It is the most widely used type of database in web development.
+
+Relational databases have a relational data model, data is organized in tables having rows and columns and SQL is the primary data query language used to interact with relational databases.
+
+MySQL is an example of a relational database.
+
+#### What are relationships?
+
+Imagine you buy five different books from an online bookstore. When you create an account at the bookstore, the system will assign you a customer id say C1. Now, C1 will be linked to five different books B1, B2, B3, B4, and B5.
+
+This is a one-to-many relationship. In the simplest of forms, one database table will contain the details of all the customers and another table will contain all the products in the inventory.
+
+One row in the customer table will correspond to multiple rows in the product inventory table.
+
+Upon pulling the user object with the id C1 from the database, we can easily find what books C1 purchased via the relationship model.
+
+#### Data consistency
+
+Besides the relationships, relational databases also ensure saving data in a normalized fashion. In very simple terms, normalized data means an entity occurs in only one place/table in its simplest and atomic form and is not spread throughout the database.
+
+This helps maintain consistency in the data. In the future, if we want to update the data, we update it in just one place as opposed to updating the entity spread through multiple tables. This is troublesome, and things can quickly get inconsistent.
+
+#### ACID transactions
+
+Besides normalization and consistency, relational databases also ensure ACID transactions.
+
+ACID stands for atomicity, consistency, isolation and durability.
+
+An ACID transaction means if a transaction, say a financial transaction, occurs in a system, it will be executed with perfection without affecting any other processes or transactions. After the transaction is complete, the system will have a new state that is durable and consistent.
+
+In case anything amiss happens during the transaction, say a minor system failure, the entire operation is rolled back.
+
+An ACID transaction happens with an initial state of the system, State A, and completes with a final state of the system, State B. Both the states are consistent and durable.
+
+A relational database ensures that the system is either in State A or State B at all times. There is no middle state. If anything fails, the system always rolls back to State A.
+
+In the next lesson, let’s understand when to pick a relational database.
+
+### When should you pick a relational database?
+
+You should pick a relational database if you need strong consistency, transactions, or relationships. Typical examples of apps needing strong consistency are stock trading, personal banking, etc.
+
+#### Transactions and data consistency
+
+If you are writing software that has anything to do with money or numbers that makes transactions, ACID and data consistency super important to you.
+
+Relational DBs shine when it comes to transactions and data consistency. They comply with the ACID rule, have been around for ages, and are battle-tested. 
+
+##### Large community
+
+Additionally, relational databases have a large community. Seasoned engineers on the tech are readily available. You don’t have to go too far looking for them.
+
+#### Storing relationships
+
+If your data has a lot of relationships that we typically come across in social networking apps like what friends of yours live in a particular city, which of your friends already ate at the restaurant you plan to visit today, etc. Relational databases suit well for storing this kind of data.
+
+Relational databases are built to store relationships. They have been tried and tested and are used by big guns in the industry. Facebook leverages a relational database as their main user-facing DB.
+
+https://www.scaleyourapp.com/what-database-does-facebook-use-a-1000-feet-deep-dive/
 
 
+#### Popular relational databases
+
+Some of the popular relational databases used in the industry are:
+
+* MySQL, an open-source relationship database written in C and C++, has been around since 1995.
+
+*  PostgreSQL, an open-source RDBMS written in C.
+
+*  Microsoft SQL Server, a proprietary RDBMS written by Microsoft in C and C++.
+
+*  MariaDB, Amazon Aurora, Google Cloud SQL, etc.
+
+### NoSQL Databases - Introduction
+
+#### What is a NoSQL database?
+
+As the name implies, NoSQL databases have no SQL; they are more like JSON-based databases built for Web 2.0
+
+NoSQL databases are built for high-frequency read writes, typically required in social applications like micro-blogging, real-time sports apps, online massive multiplayer games, and so on.
+
+#### How is a NoSQL database different from a relational database?
+
+One obvious question that would pop up in our minds is: why the need for NoSQL databases when relational databases were doing fine, battle-tested, well adopted by the industry, and had no major persistence issues?
+
+Let’s understand the need for NoSQL databases.
+
+#### Scalability
+
+Well, one big limitation with SQL-based relational databases is scalability. Scaling relational databases is not trivial. They have to be sharded, replicated to make them run smoothly on a cluster. This requires careful planning, human intervention and a skillset.
+
+On the contrary, NoSQL databases can add new server nodes on the fly and scale without any human intervention, just with a snap of your fingers.
+
+Today’s websites need fast read-writes. There are billions of users connected with each other on social networks. A massive amount of data is generated every microsecond, and we need an infrastructure designed to manage this exponential growth.
+
+#### Ability to run on clusters
+
+NoSQL databases are designed to run intelligently on clusters. When I say intelligently, I mean with minimal human intervention.
+
+Today, the server nodes even have self-healing capabilities. The infrastructure is intelligent enough to self-recover from faults. This makes things pretty smooth.
+
+However, all this innovation does not mean old-school relational databases aren’t good enough, and we don’t need them anymore.
+
+Relational databases still work like a charm and are still in demand. They have a specific use case. We have already gone through those in the previous lesson.
+
+Also, NoSQL databases had to sacrifice strong consistency, ACID transactions, and much more to scale horizontally over a cluster and across the data centers.
+
+The data with NoSQL databases is more eventually consistent as opposed to being strongly consistent.
+
+So, this naturally means NoSQL databases aren’t a silver bullet. They, too, have a use case. And this is completely fine. We don’t need silver bullets. We aren’t hunting werewolves. We are up to a much harder task connecting the world online.
+
+I’ll talk about the underlying design of NoSQL databases in much more detail and why they have to sacrifice strong consistency and transactions in the upcoming lessons.
+
+### Features of NoSQL Databases
+
+We learned that the NoSQL databases are built to run on clusters in a distributed environment, powering Web 2.0 websites. Now, let’s go over some of the upsides and downsides of using a NoSQL database.
+ 
+#### Pros of NoSQL databases
+
+Besides their scalable design, NoSQL databases are also developer-friendly. What do I mean by that?
+
+##### Learning curve not so steep and schemaless
+
+The learning curve of NoSQL databases is less steep than that of relational databases. When working with relational databases, a big chunk of our time goes into learning to design well-normalized tables, setting up relationships, trying to minimize joins, and so on.
+
+Also, one needs to be pretty focused when designing the schema of a relational database to avoid running into issues in the future.
+
+Think of relational databases as a strict headmaster. Everything has to be in place, neat and tidy, and things need to be consistent. However, NoSQL databases are a bit chilled out and relaxed.
+
+There are no strictly enforced schemas. You can work with the data however you want. You can always change stuff and move things around. Entities have no relationships. Thus, there is a lot of flexibility, and you can do things your way.
+
+Wonderful, right?
+
+Not always!! This flexibility is both good and bad at the same time. Being so flexible, developer-friendly, having no joins, relationships, etc. makes it good. But NoSQL databases have limitations too.
+
+#### Cons Of NoSQL databases
+
+##### Inconsistency
+
+Since the data is not normalized, this introduces the risk of it being inconsistent. An entity, since spread throughout the database, has to be updated at all places. It’s hard for developers to remember all the locations of an entity in the database; this leads to inconsistency.
+
+Failing to update an entity at all places makes the data inconsistent. This is not a problem with relational databases since they keep the data normalized.
+
+##### No support for ACID transactions
+ 
+Also, NoSQL distributed databases don’t support ACID transactions. A few claim to do so, though they don’t support them at a global deployment level. ACID transactions in these databases are limited to a certain entity hierarchy or a small deployment region where they can lock down nodes to update them.
+
+Note: ACID transactions in distributed systems come with terms and conditions applied.
+
+I’ve worked on a few NoSQL databases, MongoDB, Elasticsearch, Google Cloud Datastore. An upside of working with NoSQL databases is that we don’t have to be a pro in database design to develop an application.
+
+Things are comparatively simple because there is no stress of managing joins, relationships, n+1 query issues and so on. Just fetch the object using its key, which is a constant O(1) operation, making the NoSQL databases fast and simpler.
+
+#### Popular NoSQL databases
+
+Some of the popular NoSQL databases used in the industry are MongoDB, Redis, Neo4J, Cassandra, Memcache, etc.
+
+### When to pick a NoSQL Database?
+
+#### Handling a large number of read-write operations
+
+NoSQL databases are built to handle a large number of read-write operations due to the eventual consistency model. With the ability to add nodes on the fly, they can handle more concurrent traffic, enabling us to scale fast.
+
+They are also built to handle big data with minimal latency. Pick a NoSQL database if you are looking to scale fast and willing to give up on strong consistency.
+
+#### Flexibility with data modelling
+
+A NoSQL DB is a good fit if you are not sure about your data model during the initial phases of development and things are expected to change at a rapid pace. NoSQL databases offer us more flexibility.
+
+#### Eventual consistency over strong consistency
+
+NoSQL databases are a good pick when we do not need ACID transactions and are okay to give up strong consistency.
+
+A good example of this is a microblogging site like Twitter. When a celebrity’s tweet blows up and everyone likes and re-tweets it from across the world, does it matter if the like count goes up or down a tad bit for a short while?
+
+The celebrity certainly wouldn’t care if instead of the actual 5 million 500 likes, the system shows the like count as 5 million 250 for a short while.
+
+When a large application is deployed on hundreds of servers spread across the globe, the geographically distributed nodes take some time to reach a global consensus.
+
+Until they reach a consensus, the value of the entity is inconsistent. The value of the entity eventually becomes consistent after a short while. This is what eventual consistency is.
+
+However, the inconsistency does not mean any sort of data loss. It just means that the data takes a short while to travel across the globe via the internet cables under the ocean to reach a global consensus and become consistent.
+
+We experience this behavior all the time, especially on YouTube. Often you might see a video with 10 views and 15 likes. How is this even possible?
+
+It’s not. The actual views are already more than the likes. It’s just the count of views is inconsistent and takes a short while to get updated.
+
+#### Running data analytics
+
+NoSQL databases also fit best for data analytics use cases, where we have to deal with an influx of massive amounts of data.
+
+There are dedicated databases for use cases like this, such as time-series databases, wide-column, document-oriented databases, etc.
+
+### Is NoSQL More Performant Than SQL?
+
+Is NoSQL more performant than SQL? Developers ask this question all the time when trying to decide between an SQL and a NoSQL database. And I have a one-word answer for this.
+
+No!!
+
+From a technology performance benchmarking standpoint, both relational and non-relational databases are equally performant.
+
+More than the technology, it’s how we design our systems using a certain technology that decides the performance.
+
+Both SQL and NoSQL tech have their use cases. We have already gone through them in the former lessons. So, don’t get caught up in the hype. Understand your use case and pick the fitting technology.
+
+#### Why do popular tech stacks always pick NoSQL databases?
 
