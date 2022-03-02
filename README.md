@@ -2910,6 +2910,18 @@ Data pipelines work on a set of rules predefined by the engineering teams, and t
 
 Data pipelines facilitate the parallel processing of data via managing multiple streams. I’ll talk more about distributed data processing in the upcoming lesson.
 
+The architecture flows the data of both real-time and batch processing through a single streaming pipeline, reducing the complexity of managing separate layers for processing data.
+
+#### Layers of Kappa architecture
+
+Kappa contains only two layers: Speed, which is the streaming processing layer, and Serving, which is the final layer. Also, Kappa is not an alternative for Lambda. Both the architectures have their use cases.
+
+Kappa is preferred if the batch and the streaming analytics results are fairly identical in a system. Lambda is preferred if they are not.
+
+Well, this concludes the stream processing chapter. Setting up and running a distributed system is something that is not trivial and requires years of work to perfect the system.
+
+
+
 Traditionally we used ETL systems to manage all of the data’s movement across the system, but one major limitation with the technology is that it doesn’t support the management of real-time streaming data, which on the contrary is possible with the new era data processing infrastructure powered by the data pipelines.
 
 ### What is ETL?
