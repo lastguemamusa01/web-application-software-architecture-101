@@ -3024,5 +3024,15 @@ In Kappa architecture, all the data flows through a single data streaming pipeli
 
 ![image](https://user-images.githubusercontent.com/25869911/156298714-509388c6-71a3-4ee5-a4f4-0c223975c64c.png)
 
+The architecture flows the data of both real-time and batch processing through a single streaming pipeline, reducing the complexity of managing separate layers for processing data.
+
+#### Layers of Kappa architecture
+
+Kappa contains only two layers: Speed, which is the streaming processing layer, and Serving, which is the final layer. Also, Kappa is not an alternative for Lambda. Both the architectures have their use cases.
+
+Kappa is preferred if the batch and the streaming analytics results are fairly identical in a system. Lambda is preferred if they are not.
+
+Well, this concludes the stream processing chapter. Setting up and running a distributed system is something that is not trivial and requires years of work to perfect the system.
+
 
 
