@@ -3645,10 +3645,147 @@ Well, this is pretty much it for a web-based mapping service. We’ve covered th
 
 https://www.scaleyourapp.com/how-hotstar-scaled-with-10-3-million-concurrent-users-an-architectural-insight/
 
+### case study : A Baseball Game Ticket Booking Web Portal
 
+In this lesson, you’ll gain an understanding of the architecture and key points to consider when designing an application like a baseball game ticket booking portal.
 
+#### Database
 
+Starting with the database, the sale of tickets online is key in this particular use case. We need to set up a foolproof payment system for the fans to buy tickets for their most awaited baseball game.
 
+For setting up payments, what database should we pick and why? You know it :) Implementing an online payment system makes transactions and strong consistency vital. The database needs to be ACID compliant. This makes a relational database like MySQL an obvious pick for us.
 
+#### Handling concurrency
 
+Another essential thing to note is that the application should be designed to handle a high number of concurrent connections. There will be a surge of fans on the portal to buy tickets for the baseball game as soon as they are made available.
+
+Also, the number of requests will naturally be a lot more than the number of tickets available. At a point, there will be n requests to buy one ticket. We need to make sure the system handles this concurrent scenario well. How will you implement this scenario? Think about it.
+
+#### Message queue
+
+One way is to queue all the ticket buy requests using a message queue. Apply the FIFO principle. We talked about handling concurrent requests with the help of a message queue in the message queue lesson.
+
+#### Database locks and Caching
+
+Another approach is to use database locks. Use the correct transaction isolation level.
+
+A transaction isolation level ensures consistency in a database transaction. It ensures that at one point, only one transaction has access to a resource in the database. You can read more on isolation in database systems here. Also, read snapshot isolation.
+
+Transaction isolation levels can only be implemented with a transactional ACID-compliant database like MySQL.
+
+Generally, on e-commerce sites or travel booking websites, the number of tickets/products shown on the website is not accurate, and they are inconsistent cached values. When a user moves on to buy a particular ticket/product and checks out the cart, the system polls the database for the accurate count and locks the resource for the transaction.
+
+We will do the same for our website. There will be a lot of user events on the portal where the users just browse the website to look at the current price of the tickets and not buy them. Caching will avert the load on the database in this scenario.
+
+To implement caching, we can pick any of the popular caches, like Redis, Memcached or Hazelcast.
+
+#### Backend tech
+
+Speaking of the backend technology, we can pick from Java, Scala, Python, Go, etc.
+
+To send notifications to the users, we can pick a message queue like RabbitMQ or Kafka.
+
+Let’s move to the UI.
+
+#### User interface
+
+We don’t really need to establish a persistent connection with the server because the application is a CRUD-based app. Simple Ajax queries will work well.
+
+It’s a good idea to make the UI responsive, as fans will access it via devices with different screen sizes. The UI should be smart enough to adjust itself based on the screen size.
+
+We can either design the responsive behavior from the ground up using CSS3 or leverage a popular open-source responsive framework like Bootstrap JS.
+
+If you are fond of JavaScript frameworks, you can use React, Angular, Vue, etc. These frameworks are pretty popular in the industry, and businesses prefer to use them to standardize the behavior and the implementation of their applications.
+
+https://en.wikipedia.org/wiki/Isolation_(database_systems)
+
+https://en.wikipedia.org/wiki/Snapshot_isolation
+
+### Introduction to mobile apps
+
+#### The arrival of handheld devices
+
+If I told you that mobile devices today have the maximum market penetration globally as opposed to other devices like laptops, tablets, etc., you wouldn’t be surprised at all. Approximately 60 to 70% of the users in this day and age are accessing online services through their mobile devices as opposed to any other devices.
+
+This technology shift is for a few reasons: accessibility and the ease of use of mobile devices. We can carry our mobile phones with us everywhere, whether when hanging out with our friends or when at our office cubicles. Also, we don’t have to be tech-savvy to operate a handheld device. My grandmother, who has never operated a computer, runs Google searches through voice commands on her Android device without any sort of assistance. This is how simple and intuitive the user interfaces of handheld devices are.
+
+Engineers have done an impeccable job making the user interfaces as intuitive as possible, making the onboarding of the new users smooth. The mass adoption of handheld devices has completely changed the technology landscape. It has provided a way for non-tech-savvy users to enter into the online universe. It’s a totally different ball game. Businesses are going from web-first to mobile-first. There was a time when just nerds used to play computer games, but today everyone is playing Candy Crush, PubG, Fortnite, Freefire, Angry birds and so on their mobile devices.
+
+#### The transition from desktop to mobile
+
+I’ve always been an avid gamer. I love to play games on all the platforms, be it on the web, a console, or a desktop. Back in the day, around 2010, I got introduced to casual gaming via Facebook social games like Farmville and many more. These games have a freemium business model. These are free to play with in-game purchases and were popularized by companies like Zynga in conjunction with social networks like Facebook. Farmville is one popular product of Zynga that had a significant contribution in putting the company on NASDAQ.
+
+I got pretty hooked. These casual games became my thing. I often switched between my work tabs and the game tab throughout the day on my browser; this kind of kept me going for a longer period of time without getting bored or burnt out.
+
+Online multiplayer social gaming was a new thing then, and it became a major source of earning for Facebook. Every now and then, there was a new exciting game on the Facebook app store. Just Zynga alone contributed 15 to 20% of Facebook’s total earnings.
+
+Gradually, smartphones started becoming popular. They significantly improved in hardware in a short period. They were loaded with more features, cool cameras, better memory, and whatnot. As smartphones’ popularity rose and they became a household thing, this changed the whole online gaming landscape. Almost all of the games transitioned to mobile devices, as the gaming companies observed better user retention and engagement rates via the mobile versions of their games. After the gaming studios introduced mobile clients for their games, they witnessed more Monthly Active Users (MAU) and Daily Active Users (DAU).
+
+As mobile engagement increased, the web was decreasing. Many businesses decided to focus just on mobile. Clash of Clans is a good example of this.
+
+Today, we can hardly find any games on Facebook besides the instant messenger games. Several have gone mobile-only. The Facebook game store feels like a deserted place, and the social network is focusing more on ads, business pages, and Facebook groups to make profits. This technology shift is not just for the gaming segment. This is happening for arguably every business niche.
+
+Mobile devices today bring in the majority of the traffic for businesses. There are mobile-only businesses with billions of users like Instagram, TikTok, Pokemon Go, etc. Google Play Store has over 2 billion monthly active users and has over 3.5 million apps, 82 billion app downloads as of today.
+
+In case you are wondering what do terms like mobile-only, mobile-first, mobile-friendly mean? What significance do they have in the application development domain? We’ll find out in the next lesson.
+
+### Before You Design Your Mobile App
+
+If you are in the initial planning and design phase of your service or already have a web-based service up and running and are wondering whether you should have a mobile app for your service, it’s always a good idea to do thorough market research in your niche before you get down to writing a mobile app for your service.
+
+I know I just said that mobile devices have the market penetration and are bringing in the majority of the traffic, but there is no one size fits all strategy for approaching the market for businesses. I want to give you a quick example here. I own a technology website, and almost 80% of my visitors are from the desktop. My business does not have a mobile app, and it’s doing just fine.
+
+So, there are several things to consider before you decide whether you really need an app for your business. Yeah!! It may be a good thing to have, but is it a necessity? Writing a mobile app has significant costs associated with it to the point you may have to set up a dedicated mobile dev team for your business.
+
+If you are feeling courageous and thinking of writing a mobile app all by yourself, let me tell you this: it has a steep learning curve. Speaking from experience, you will begin thinking, “Well, I know the backend development. How tricky can writing a mobile app be?” And, along the way, you would be like, “Oh man!! I never thought getting my business on mobile would involve so much work. Will this ever end?”
+
+Hand-held devices are battery-powered, and the resources (CPU, Storage, RAM, Data) and user’s patience are limited. It requires an entirely different mindset when writing mobile apps as opposed to when writing web applications that would run on the cloud. Big players like Facebook, Instagram, and others do a lot of research and strategizing when developing their apps.
+
+#### Mobile only
+
+Mobile-only means that the business operates just via mobile. It may have a mobile website or an app on the play store or both. Generally, it’s the apps that the businesses move forward with when going mobile-only which drive most of the traffic.
+
+Mobile websites run on mobile browsers and are primarily built for engaging traffic coming in from the Google search. From there, the users are routed to their respective apps. TikTok, Pokémon Go are examples of mobile-only businesses.
+
+#### Mobile first
+
+Mobile-first means the service’s user interface is designed with the idea that most of the business’s users will use its services via its mobile client. The desktop-based website interface is secondary. The mobile interface is the interface that a business would want to show to its customers first as opposed to its desktop interface.
+
+A mobile-first website will contain all the features that a user would need to fully experience a service. In a mobile-first approach, it’s possible for the desktop interface to contain fewer features.
+
+When the designers start to design the interface, they first design the mobile interface. Then based on that, they build the interfaces for other platforms like desktop, tablet, etc. In a mobile-first approach, a business typically goes to the market with an app or a browser-based mobile website.
+
+Myntra.com, India’s leading online fashion retail business, is a good example of this. It started with both a desktop website and a mobile app. The majority of the revenue was generated from the mobile app over 70% with over 90% traffic. So, they started focusing more on the mobile app and eventually killed their desktop website.
+
+But over time, because of customer demand for the business to be on both platforms, Myntra re-opened its desktop website but is still a mobile-first business.
+
+#### Mobile friendly – Responsive
+
+Mobile-friendly as the name implies, are websites that are friendly for mobile but are originally built to render on desktop browsers. They are popularly known as responsive websites. They have a grid-based design and adapt themselves based on the screen size of the device. We can also call these websites web-first or desktop-first.
+
+Generally, a responsive web page is divided into rows and columns containing grids. As the screen size gets smaller, those grids rearrange themselves based on the screen size.
+
+![image](https://user-images.githubusercontent.com/25869911/156706263-8ec2d58d-dee3-42bd-8aac-491027cd3fd3.png)
+
+So, with this approach, we don’t have to do anything additional for mobile. Just develop a desktop-based responsive website and it will automatically render for all screen sizes.
+
+This may sound convenient, but there is a slight hitch. We may not have 100% control over how the responsive website renders on different devices. Some elements of the page may get hidden or may not render in a way that we would like. To tackle this, we can write CSS-media queries, but still, it won’t be as good as a mobile-first built website. This is why businesses prefer to go ahead with the mobile-first strategy if most of the traffic comes in from the mobile.
+
+#### What approach should you choose for your business?
+
+When picking the right strategy to approach the market, we need to be informed on things like:
+
+* How are the users of the existing businesses in the same niche, if there are any, accessing their websites?
+* Do these businesses have an app on the popular app stores or are they operating just via their websites? If they have an app, how many downloads do they have? What are their primary traffic and social discovery (how users find the service) sources?
+* What is the revenue generation platform-wise? Sometimes it’s hard to get that kind of info if the business doesn’t declare it publicly. However, we can look into the traffic on their app and the website and assume (though it’s not always true) that the platform getting the maximum traffic will generate most of the revenue. For all this business analytics information, there are a plethora of freemium tools with browser extensions and services available online—just Google.
+
+Besides these key points, the type of service offered to the users plays a decisive role in creating a strategy for approaching the market. It makes it easy to figure out if we need to move ahead with or without a mobile app.
+
+For instance, say, we intend to bootstrap a service in the health niche that would enable the users to track their eating habits and suggest healthy alternatives. The service would also have some social features for user engagement and retention.
+
+What do you think would be the best strategy to approach the market in this use case? Do we need a mobile app? Or will a web-based website suffice?
+
+To track meals throughout the day, it would be inconvenient for the user to open their laptop or rush to their desktop every time they want to input or check the calories of the meal they just ate. On the other hand, if we offer the end user all the services via an app that they could install on their mobile, they can easily track all their meals throughout the day anywhere they want, be it at home, the office cafeteria, or when stuck in traffic. It’s an obvious fact that a mobile-first approach will work best for our use case.
+
+We can also have a web-based interface. This is a good to have but not a necessity, atleast in the initial stages of starting up. From a technical standpoint, there are technology offerings like Firebase that enable us to write an app without investing too much time in setting up the backend infrastructure.
 
